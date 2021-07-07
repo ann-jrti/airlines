@@ -11,7 +11,7 @@ const flights = [
   { id: 08, to: 'Shangai', from: 'Barcelona', cost: 800, scale: true },
   { id: 09, to: 'Sydney', from: 'Barcelona', cost: 150, scale: true },
   { id: 10, to: 'Tel-Aviv', from: 'Madrid', cost: 150, scale: false },
-];
+]
 
 /* -------- AIRLINES -------- */
 
@@ -91,26 +91,26 @@ const adminOrUserQuestion = () => {
 
 /* ADMIN OPTIONS */
 
-//create a new flight object
+//creates a new flight object
 const createFlightObject = (id, to, from, cost, scale) => ({
   id: parseFloat(id),
   to,
   from,
   cost: parseFloat(cost),
   scale: convertToBoolean(scale),
-});
+})
 
 //asks admin to add a flight
 const addFlightQuestion = () => {
   const addOrNot = window.confirm('Do you want to add a flight?');
   if (addOrNot) addFlight();
   console.log('****** AIRLINES UPDATED WITH NEW FLIGHTS ******');
-};
+}
 
 //asks admin to delete a flight
 const deleteFlightQuestion = () => {
-  const eliminateOrNot = window.confirm('Do you want to delete a flight?');
-  if (eliminateOrNot) deleteFlight();
+  const deleteOrNot = window.confirm('Do you want to delete a flight?');
+  if (deleteOrNot) deleteFlight();
   else window.alert('Bye!');
 }
 
@@ -140,8 +140,8 @@ const deleteFlight = () => {
 
 //asks user to sort flights by price
 const sortPricesQuestion = () => {
-  let sortAnswer = window.confirm('Do you want to sort flights by price?');
-  if (sortAnswer) sortPrices();
+  let sortOrNot = window.confirm('Do you want to sort flights by price?');
+  if (sortOrNot) sortPrices();
 }
 
 //outputs flights sorted by price
@@ -165,10 +165,9 @@ const sortFlightsByPrice = (value, sortType, flights) => {
       const filteredBySamePrice = flights.filter((flight) => flight.cost === value);
       return filteredBySamePrice;
 
-    } else console.log('No results matching with your preferences!');
+    } 
   }
 }
-
 
 //performs sort and filter flights by price
 const sortPrices = () => {
@@ -179,11 +178,10 @@ const sortPrices = () => {
   showFlights(sortedFlights);
 }
 
-
 //asks user to purchase a flight
 const purchaseFlightQuestion = () => {
-  const idQuestion = window.confirm('Do you want to purchase a flight?');
-  if (idQuestion) purchaseFlightById();
+  const purchaseOrNot = window.confirm('Do you want to purchase a flight?');
+  if (purchaseOrNot) purchaseFlightById();
   else console.log('See you soon!');
 }
 
@@ -194,7 +192,6 @@ const purchaseFlightById = () => {
     const idInput = window.prompt('Insert the ID of the flight you want to purchase');
     const purchasedFlight = flights.filter((e) => e.cost === parseFloat(idInput));
     if (purchasedFlight) console.log('Thank you for your purchase. See you soon!');
-    else window.prompt(`Invalid ID! Purchased can't be complete. Please insert a valid one`);
   }
 }
 

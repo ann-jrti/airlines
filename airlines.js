@@ -61,10 +61,8 @@ const showsLastFlightsOfTheDay = (flights) => {
  for (let i = 0; i < fiveLastFlights.length; i++) {
   fiveLastFligthsDestinations.push(fiveLastFlights[i].to);
   }
-
   console.log(`The last five flights of today are flying to: ${fiveLastFligthsDestinations.join(', ')}`);
 }
-
 
 /* main function of the program */
 
@@ -77,4 +75,3 @@ function airlines() {
 }
 
 airlines();
-

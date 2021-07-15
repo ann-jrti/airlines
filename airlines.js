@@ -11,44 +11,45 @@ const flights = [
   { id: 08, to: 'Shangai', from: 'Barcelona', cost: 800, scale: true },
   { id: 09, to: 'Sydney', from: 'Barcelona', cost: 150, scale: true },
   { id: 10, to: 'Tel-Aviv', from: 'Madrid', cost: 150, scale: false },
-]
+];
+
+/* -------- AIRLINES -------- */
 
 /* side functions */
 
 //greets the user
 const sayHi = () => {
   const userName = window.prompt('Welcome to Skyklab Airlines! What is your name?');
-  window.alert(`Hi ${userName}!`);
-}
+  if (userName !== null) {
+    window.alert(`Hi ${userName}!`);
+  } else window.alert(`Hi guest!`)
+};
 
 //prints flights in a friendly format
 const showFlights = (flights) => {
   for (const element of flights) {
-    const { scale } = element; 
-    if (scale) {
-      console.log(`The flight with origin: ${element.from}, and destination: ${element.to}, has a cost of ${element.cost}€ and has at least 1 scale.`);
-    } else console.log(`The flight with origin: ${element.from}, and destination ${element.to}, has a cost of ${element.cost}€ and has no scales.`);
+    const { scale } = element;
+    if (scale)
+      console.log(`[${element.id}] The flight with origin: ${element.from}, and destination: ${element.to}, has a cost of ${element.cost}€ and has at least 1 scale.`);
+    else
+      console.log(`[${element.id}] The flight with origin: ${element.from}, and destination ${element.to}, has a cost of ${element.cost}€ and has no scales.`);
   }
-}
+};
 
 //calculates and prints medium cost of total flights
 const showFlightsAveragePrice = (flights) => {
   let totalCost = 0;
-  let averagePrice;
   for (const element of flights) {
     totalCost += element.cost;
   }
-  averagePrice = totalCost / flights.length;
-  console.log(`The average price of total flights is ${Math.floor(averagePrice)}€`);
-}
+  let averagePrice = totalCost / flights.length;
+console.log(`The average price of total flights is ${Math.floor(averagePrice)}€`);};
 
 //prints the flights with scales
 const showFlightsWithScale = (flights) => {
   const flightsWithScale = [];
   for (const element of flights) {
-    if (element.scale) {
-      flightsWithScale.push(element.to);
-    }
+    if (element.scale) flightsWithScale.push(element.to);
   }
   const numberOfFlightsWithScale = flightsWithScale.length;
   console.log(`Today we have ${numberOfFlightsWithScale} fligths with scale to: ${flightsWithScale.join(', ')}`);
@@ -56,13 +57,13 @@ const showFlightsWithScale = (flights) => {
 
 //prints to user the five last flights of the day
 const showsLastFlightsOfTheDay = (flights) => {
- let fiveLastFlights = flights.slice(-5);
- let fiveLastFligthsDestinations =  [];
- for (let i = 0; i < fiveLastFlights.length; i++) {
-  fiveLastFligthsDestinations.push(fiveLastFlights[i].to);
+  let fiveLastFlights = flights.slice(-5);
+  let fiveLastFligthsDestinations = [];
+  for (let i = 0; i < fiveLastFlights.length; i++) {
+    fiveLastFligthsDestinations.push(fiveLastFlights[i].to);
   }
   console.log(`The last five flights of today are flying to: ${fiveLastFligthsDestinations.join(', ')}`);
-}
+};
 
 /* main function of the program */
 

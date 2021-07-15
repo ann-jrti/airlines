@@ -11,7 +11,7 @@ const flights = [
   { id: 08, to: 'Shangai', from: 'Barcelona', cost: 800, scale: true },
   { id: 09, to: 'Sydney', from: 'Barcelona', cost: 150, scale: true },
   { id: 10, to: 'Tel-Aviv', from: 'Madrid', cost: 150, scale: false },
-]
+];
 
 /* -------- AIRLINES -------- */
 
@@ -20,47 +20,50 @@ const flights = [
 //greets the user
 const sayHi = () => {
   const userName = window.prompt('Welcome to Skyklab Airlines! What is your name?');
-  window.alert(`Hi ${userName}!`);
-}
+  if (userName !== null) {
+    window.alert(`Hi ${userName}!`);
+  } else window.alert(`Hi guest!`)
+};
 
 //prints flights in a friendly format
 const showFlights = (flights) => {
   for (const element of flights) {
     const { scale } = element;
-    if (scale) console.log(`[${element.id}] The flight with origin: ${element.from}, and destination: ${element.to}, has a cost of ${element.cost}€ and has at least 1 scale.`);
-    else console.log(`[${element.id}] The flight with origin: ${element.from}, and destination ${element.to}, has a cost of ${element.cost}€ and has no scales.`);
+    if (scale)
+      console.log(`[${element.id}] The flight with origin: ${element.from}, and destination: ${element.to}, has a cost of ${element.cost}€ and has at least 1 scale.`);
+    else
+      console.log(`[${element.id}] The flight with origin: ${element.from}, and destination ${element.to}, has a cost of ${element.cost}€ and has no scales.`);
   }
-}
+};
 
 //calculates and prints medium cost of total flights
-const showFlightsAveragePrice = flights => {
+const showFlightsAveragePrice = (flights) => {
   let totalCost = 0;
   for (const element of flights) {
     totalCost += element.cost;
   }
   let averagePrice = totalCost / flights.length;
-  console.log(`The average price of total flights is ${Math.floor(averagePrice)}€`);
-}
+console.log(`The average price of total flights is ${Math.floor(averagePrice)}€`);};
 
 //prints the flights with scales
-const showFlightsWithScale = flights => {
+const showFlightsWithScale = (flights) => {
   const flightsWithScale = [];
   for (const element of flights) {
     if (element.scale) flightsWithScale.push(element.to);
   }
   const numberOfFlightsWithScale = flightsWithScale.length;
   console.log(`Today we have ${numberOfFlightsWithScale} fligths with scale to: ${flightsWithScale.join(', ')}`);
-}
+};
 
 //prints to user the five last flights of the day
-const showsLastFlightsOfTheDay = flights => {
+const showsLastFlightsOfTheDay = (flights) => {
   let fiveLastFlights = flights.slice(-5);
   let fiveLastFligthsDestinations = [];
   for (let i = 0; i < fiveLastFlights.length; i++) {
     fiveLastFligthsDestinations.push(fiveLastFlights[i].to);
   }
-console.log(`The last five flights of today are flying to: ${fiveLastFligthsDestinations.join(', ')}`);
-}
+  console.log(`The last five flights of today are flying to: ${fiveLastFligthsDestinations.join(', ')}`);
+};
 
 /* main function of the program */
 
@@ -78,32 +81,35 @@ airlines();
 
 /* side functions */
 
-const wrongInputHandler = (promptInput, repeatQuestion, keyword1, keyword2, keyword3) => {
-  if (typeof promptInput === 'string') {
-    if (promptInput !== keyword1 && promptInput !== keyword2 && promptInput !== keyword3) {
-      window.alert(`Error! Please insert the correct input or press cancel to exit`);
-      repeatQuestion();
-    } 
+const isValidStringInput = (promptInput, keyword1, keyword2, keyword3) => {
+  while (typeof promptInput === 'string' && promptInput !== keyword1 && promptInput !== keyword2 && promptInput !== keyword3) {
+    window.alert(`Error! Please insert the correct input or press "cancel" to exit`);
+    return false;
   }
-  if (typeof promptInput === 'number') {
-    if (isNaN(promptInput)) {
-      window.alert(`Please type a NUMBER or press "cancel" to exit`);
-      repeatQuestion();
-    }
-  }
-}
-
-//convert scale input ('yes' or 'no' to boolean value)
-const convertToBoolean = stringInput => stringInput === 'yes';
-
-//asks user type
-const adminOrUserQuestion = () => {
-  let accessType = window.prompt('Are you ADMIN or USER?');
-  if (accessType.toLowerCase() === 'admin') admin();
-  if (accessType.toLowerCase() === 'user') user();
-  wrongInputHandler(accessType, adminOrUserQuestion, 'admin', 'user');
+  return true;
 };
 
+const isValidNumberInput = (promptInput) => {
+  while (typeof promptInput === 'number' && isNaN(promptInput)) {
+    window.alert(`Please type a number or press "cancel" to exit`);
+    return false;
+  }
+  return true;
+};
+
+//convert scale input ('yes' or 'no' to boolean value)
+const convertToBoolean = (stringInput) => stringInput === 'yes';
+
+//starts program asking user type
+const startAirlinesPro = () => {
+  let accessType = window.prompt('Are you "admin" or "user"?').toLowerCase();
+  if (isValidStringInput(accessType, 'admin', 'user') !== true)
+    startAirlinesPro();
+  else {
+    if (accessType === 'admin') admin();
+    if (accessType === 'user') user();
+  }
+};
 
 /* ADMIN OPTIONS */
 
@@ -114,24 +120,23 @@ const createFlightObject = (id, to, from, cost, scale) => ({
   from,
   cost: parseFloat(cost),
   scale: convertToBoolean(scale),
-})
-
+});
 
 //asks admin to add a flight
 const addFlightQuestion = () => {
   const addOrNot = window.confirm('Do you want to add a flight?');
   if (addOrNot) {
     addFlight();
-    console.log('****** AIRLINES UPDATED WITH LAST CHANGES ******')
   }
-}
+  console.log('****** AIRLINES UPDATED WITH LAST CHANGES ******');
+};
 
 //asks admin to delete a flight
 const deleteFlightQuestion = () => {
   const deleteOrNot = window.confirm('Do you want to delete a flight?');
   if (deleteOrNot) deleteFlight();
   else window.alert('Bye!');
-}
+};
 
 //performs add a flight
 const addFlight = () => {
@@ -146,16 +151,19 @@ const addFlight = () => {
     let newQuestion = window.confirm('Would you like to add more flights?');
     if (newQuestion) addFlight();
   } else window.alert(`You've reached the max number of flights added`);
-}
+};
 
 //performs delete a flight
 const deleteFlight = () => {
   const idFlight = parseFloat(window.prompt('Insert the ID of the flight you want to delete'));
-  wrongInputHandler(idFlight, deleteFlight);
-  const filteredFlights = flights.filter((id) => id.id !== parseFloat(idFlight));
-  console.log(`****** FLIGHT WITH ID ${idFlight} DELETED. AIRLINES UPDATED ******`);
-  showFlights(filteredFlights);
-}
+  if (isValidNumberInput(idFlight) !== true) {
+    deleteFlight();
+  } else {
+    const filteredFlights = flights.filter((id) => id.id !== idFlight);
+    console.log(`****** FLIGHT WITH ID ${idFlight} DELETED. AIRLINES UPDATED ******`);
+    showFlights(filteredFlights);
+  }
+};
 
 /* USER OPTIONS */
 
@@ -163,13 +171,13 @@ const deleteFlight = () => {
 const sortPricesQuestion = () => {
   let sortOrNot = window.confirm('Do you want to sort flights by price?');
   if (sortOrNot) sortPrices();
-}
+};
 
 //outputs flights sorted by price
 const sortFlightsByPrice = (value, sortType, flights) => {
   for (const element of flights) {
     if (sortType === 'high') {
-      const higherPricesFlights = flights.sort((a, b) =>  a.cost - b.cost);
+      const higherPricesFlights = flights.sort((a, b) => a.cost - b.cost);
       const filteredByLowerPrice = higherPricesFlights.filter((flight) => flight.cost > value);
       return filteredByLowerPrice;
 
@@ -177,45 +185,58 @@ const sortFlightsByPrice = (value, sortType, flights) => {
       const lowerPricesFlights = flights.sort((a, b) => b.cost - a.cost);
       const filteredByHigherPrice = lowerPricesFlights.filter((flight) => flight.cost < value);
       return filteredByHigherPrice;
-    }  
+
+    } else if (sortType === 'equal') {
+      const filteredBySamePrice = flights.filter((flight) => flight.cost === value);
+      return filteredBySamePrice;
+    }
   }
-   if (sortType === 'equal') {
-    const filteredBySamePrice = flights.filter((flight) => flight.cost === value);
-    return filteredBySamePrice;
-  }
-}
+};
 
 //performs sort and filter flights by price
 const sortPrices = () => {
   const priceAnswer = parseFloat(window.prompt('Insert a price'));
-  wrongInputHandler(priceAnswer, sortPrices);
-  const sortType = window.prompt('Type "low", "high" or "equal" to sort flights by price');
-  wrongInputHandler(sortType, sortPrices, 'low', 'high', 'equal');
-  const sortedFlights = sortFlightsByPrice(priceAnswer, sortType, flights);
-  if (sortedFlights.length < 1) window.alert('No results found')
+  if (isValidNumberInput(priceAnswer) !== true) sortPrices();
   else {
-    console.log(`****** UPDATED AIRLINES WITH FLIGHTS SORTED BY ${sortType.toUpperCase()} PRICE ******`);  
-    showFlights(sortedFlights);
+    const sortType = window.prompt('Type "low", "high" or "equal" to sort flights by price');
+    if (isValidStringInput(sortType, 'low', 'high', 'equal') !== true) sortPrices();
+    else {
+      const sortedFlights = sortFlightsByPrice(priceAnswer, sortType, flights);
+      if (sortedFlights.length < 1) window.alert('No results found');
+      else {
+        console.log(`****** UPDATED AIRLINES WITH FLIGHTS SORTED BY ${sortType.toUpperCase()} PRICE ******`);
+        showFlights(sortedFlights);
+      }
+    }
   }
-}
+};
 
 //asks user to purchase a flight
 const purchaseFlightQuestion = () => {
   const purchaseOrNot = window.confirm('Do you want to purchase a flight?');
   if (purchaseOrNot) purchaseFlightById();
   else window.alert('See you soon!');
-}
+};
 
 //performs purchase flight
 const purchaseFlightById = () => {
-    const idInput = parseFloat(window.prompt('Insert the ID of the flight you want to purchase'));
-    wrongInputHandler(idInput, purchaseFlightById);
-    window.alert(`Purchase of ID ${idInput} flight completed. See you soon!`);
-}
+  const idInput = parseFloat(window.prompt('Insert the ID of the flight you want to purchase'))
+  if (isValidNumberInput(idInput) !== true) purchaseFlightById();
+  else {
+    const matchingIdFlight = flights.filter((id) => id.id === idInput);
+    if (matchingIdFlight.length >= 1) {
+      window.alert(`Purchase of ID ${idInput} flight completed. See you soon!`);
+    } else {
+      window.alert('No results found! Please insert an existing ID flight');
+      purchaseFlightById();
+    }
+  }
+};
 
 //main functions of user type
 function admin() {
   addFlightQuestion();
+  showFlights(flights);
   deleteFlightQuestion();
 }
 
@@ -225,8 +246,4 @@ function user() {
 }
 
 //start airlines-pro program
-adminOrUserQuestion();
-
-
-// tickets
-// purchaseflightbyid 
+startAirlinesPro();
